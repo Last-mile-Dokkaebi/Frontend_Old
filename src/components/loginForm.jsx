@@ -33,7 +33,7 @@ const LoginForm = () => {
     const onClickLogin = async() => {
         const res = await login(id, password)
         console.log(res.data)
-        if(res.data.isSuccess === true){
+        if(res.data === true){
             alert("Login Success")
         }
         else{

@@ -11,7 +11,7 @@ const login = async (id, password) => {
         id: id,
         password: password
     }
-    const res = await axios.post('/login', body)
+    const res = await axios.post('/start', body)
     return res
 };
 
