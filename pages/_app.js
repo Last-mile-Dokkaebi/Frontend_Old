@@ -3,7 +3,9 @@ import PropTypes from 'prop-types'
 import Head from 'next/head'
 import 'antd/dist/antd.css';
 
-const Dokkaebi = ({ Component }) => {
+import wrapper from '../store/configureStore'
+
+const App = ({ Component }) => {
   return (
     <>
       <Head>
@@ -15,8 +17,8 @@ const Dokkaebi = ({ Component }) => {
   )
 }
 
-Dokkaebi.propTypes = {
+App.propTypes = {
   Component: PropTypes.elementType.isRequired
 }
 
-export default Dokkaebi;
+export default wrapper.withRedux(App);
