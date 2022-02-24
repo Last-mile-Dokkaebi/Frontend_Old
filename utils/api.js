@@ -2,9 +2,11 @@ import axios from 'axios';
 
 axios.defaults.baseURL = process.env.NODE_ENV === 'development'
   ? process.env.NEXT_PUBLIC_BACKEND_DEVELOP
-  : process.env.NEXT_PUBLIC_BACKEND_DEVELOP
+  : process.env.NEXT_PUBLIC_BACKEND_DEVELOP;
+// axios.defaults.withCredentials = true;
 
-const join = async ({ name, identity, password, phoneNumber }) => {
+/* 회원가입을 위한 함수*/
+const joinApi = async ({ name, identity, password, phoneNumber }) => {
   let res = {
     isSuccess: false,
     data: null,
@@ -44,27 +46,30 @@ const join = async ({ name, identity, password, phoneNumber }) => {
   return res
 }
 
-const login = ({ id, password }) => {
-  //현재는 test코드
-  console.log(id, password)
-  if (id === "cilab") {
-    return { "isSuccess": true }
-  }
-  else {
-    return { "isSuccess": false }
+const loginApi = async ({ identity, password }) => {
+  const body = {
+    identity: identity,
+    password: password,
   }
 
-  //여기부터는 실제
-  // const body = {
-  //   id: id,
-  //   password: password,
-  // }
+  const res = {
+    isSuccess: true,
+  }
 
-  // const res = await axios.post('/api/member/login', body)
-  // return res
+  try {
+    const response = await axios.post('/member/login', body)
+    res.accessToken = response.data.accessToken
+    res.refreshToken = response.data.refreshToken
+  }
+  catch (err) {
+    res.isSuccess = false;
+    res.data = err.response.data
+  }
+
+  return res
 }
 
 export {
-  join,
-  login,
+  joinApi,
+  loginApi,
 };

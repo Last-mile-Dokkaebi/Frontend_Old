@@ -1,3 +1,5 @@
+import { removeToken, setIdentity, setToken } from "../utils/token"
+
 const initialState = {
   isLoggedIn: false,
   myId: null,
@@ -22,13 +24,17 @@ const logoutAction = () => {
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case LOG_IN: {
+      const { identity, accessToken, refreshToken } = action.data
+      setToken({ accessToken, refreshToken })
+      setIdentity(identity)
       return {
         ...state,
         isLoggedIn: true,
-        myId: action.data
+        identity: identity
       }
     }
     case LOG_OUT:
+      removeToken()
       return {
         ...state,
         isLoggedIn: false,

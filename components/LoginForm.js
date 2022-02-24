@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components'
 import useInput from '../hooks/useInput';
 import { loginAction } from '../reducers/user';
-import { login } from '../utils/api';
+import { loginApi } from '../utils/api';
 
 const Wrapper = styled.div`
   background-color:	rgb(240, 240, 240);
@@ -41,15 +41,27 @@ const ButtonRowWrapper = styled.div`
 const LoginForm = () => {
   const dispatch = useDispatch();
 
-  const [id, onChangeId] = useInput('')
+  const [identity, onChangeIdentity] = useInput('')
   const [password, onChangePassword] = useInput('')
 
-  const onSubmitForm = useCallback(() => {
-    const result = login({ id, password })
-    result.isSuccess
-      ? dispatch(loginAction(id))
-      : alert("존재하지 않는 아이디이거나 패스워드가 일치하지 않습니다.")
-  }, [id])
+  //identity(id)와 password를 그대로 보내면
+  //accessToken, refreshToken을 받아옵니다
+  const onSubmitForm = useCallback(async () => {
+    const res = await loginApi({ identity, password })
+
+    if (res.isSuccess) {
+      const data = {
+        identity: identity,
+        accessToken: res.accessToken,
+        refreshToken: res.refreshToken,
+      }
+      dispatch(loginAction(data))
+      Router.push("/")
+    }
+    else {
+      alert("존재하지 않는 아이디이거나 패스워드가 일치하지 않습니다.")
+    }
+  }, [identity, password])
 
   const onJoin = useCallback(() => {
     Router.push("/member/join")
@@ -64,7 +76,7 @@ const LoginForm = () => {
           <RowWrapper>
             <label htmlFor="id">아이디</label>
             <br />
-            <Input name="id" value={id} onChange={onChangeId} maxLength={15} required />
+            <Input name="id" value={identity} onChange={onChangeIdentity} maxLength={15} required />
           </RowWrapper>
           <RowWrapper>
             <label htmlFor="password">패스워드</label>

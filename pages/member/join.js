@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react'
 import { Form, Input, Button, Row, Col } from 'antd'
 import styled from 'styled-components'
-import { join } from '../../utils/api'
+import { joinApi } from '../../utils/api'
 import useInput from '../../hooks/useInput'
 import Router from 'next/router'
 
@@ -66,20 +66,23 @@ const Join = () => {
   }, [phoneNumber])
 
   const onSubmitForm = useCallback(async () => {
-    const res = await join({ name, identity, password, passwordCheck, phoneNumber })
+    const res = await joinApi({ name, identity, password, passwordCheck, phoneNumber })
     if (res.isSuccess === true) {
       alert(`회원가입을 축하합니다.`)
-      Router.push("/")
+      window.location.href = "/member/login"
     }
     else {
       alert(`${res.data}`)
+      for (let key in res) {
+        console.log(`${key} : ${res[key]}`)
+      }
     }
 
   }, [name, identity, password, passwordCheck, phoneNumber])
 
 
   const onCancle = useCallback(() => {
-    Router.push("/")
+    window.location.href = "/member/login"
   }, [])
 
 
