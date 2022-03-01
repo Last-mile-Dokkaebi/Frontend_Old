@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 axios.defaults.baseURL = process.env.NODE_ENV === 'development'
-  ? process.env.NEXT_PUBLIC_BACKEND_DEVELOP
-  : process.env.NEXT_PUBLIC_BACKEND_DEVELOP;
+  ? process.env.NEXT_PUBLIC_BACKEND_DEVELOP2
+  : process.env.NEXT_PUBLIC_BACKEND_DEVELOP2;
 // axios.defaults.withCredentials = true;
 
 /* 회원가입을 위한 함수*/
@@ -40,7 +40,7 @@ const joinApi = async ({ name, identity, password, phoneNumber }) => {
     }
     catch (err) {
       res.isSuccess = false
-      res.data = err.response.data
+      // res.data = err.response.data
     }
   }
   return res
