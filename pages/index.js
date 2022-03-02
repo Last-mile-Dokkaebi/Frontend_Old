@@ -1,14 +1,15 @@
 import { Button } from 'antd';
+import Router from 'next/router';
 import React from 'react'
 import { useSelector } from 'react-redux';
 import { getAccessToken } from '../utils/token';
 
-const Home = () => {
+const Index = () => {
   const { identity } = useSelector((state) => state.user)
 
   const onTest = () => {
     const accessToken = getAccessToken()
-    console.log(accessToken)
+    Router.push('/map')
   }
   /*로그인 되어 있을 경우 개인 페이지를 보여줌*/
   return (
@@ -24,4 +25,4 @@ const Home = () => {
   )
 }
 
-export default Home;
+export default Index;

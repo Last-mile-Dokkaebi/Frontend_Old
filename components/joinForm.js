@@ -1,9 +1,10 @@
 import React, { useState, useCallback } from 'react'
 import { Form, Input, Button, Row, Col } from 'antd'
 import styled from 'styled-components'
-import { joinApi } from '../../utils/api'
-import useInput from '../../hooks/useInput'
-import Router from 'next/router'
+import { joinApi } from '../utils/api'
+import useInput from '../hooks/useInput'
+import { useDispatch } from 'react-redux'
+import { exitJoinPageAction } from '../reducers/user'
 
 const Wrapper = styled.div`
   background-color: rgb(240, 240, 240);
@@ -41,7 +42,9 @@ const ErrorMessage = styled.div`
   color: red;
 `
 
-const Join = () => {
+const JoinForm = () => {
+  const dispatch = useDispatch()
+
   const [name, onChangeName] = useInput('');
   const [identity, onChangeIdentity] = useInput('');
 
@@ -69,20 +72,17 @@ const Join = () => {
     const res = await joinApi({ name, identity, password, passwordCheck, phoneNumber })
     if (res.isSuccess === true) {
       alert(`회원가입을 축하합니다.`)
-      window.location.href = "/member/login"
+      dispatch(exitJoinPageAction())
     }
     else {
       alert(`${res.data}`)
-      for (let key in res) {
-        console.log(`${key} : ${res[key]}`)
-      }
     }
 
   }, [name, identity, password, passwordCheck, phoneNumber])
 
 
   const onCancle = useCallback(() => {
-    window.location.href = "/member/login"
+    dispatch(exitJoinPageAction())
   }, [])
 
 
@@ -163,4 +163,4 @@ const Join = () => {
   )
 }
 
-export default Join;
+export default JoinForm;

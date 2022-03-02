@@ -1,25 +1,16 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import Head from 'next/head'
 import 'antd/dist/antd.css';
 
 import wrapper from '../store/configureStore'
 import { useSelector } from 'react-redux';
-import Router from 'next/router';
+import AppLayout from '../components/AppLayout';
+import LoginForm from '../components/LoginForm';
+import JoinForm from '../components/joinForm';
 
 const App = ({ Component }) => {
-  const { isLoggedIn } = useSelector((state) => state.user)
-  useEffect(() => {
-    console.log("_app")
-    /*로그인 되어 있지 않을 경우 */
-    if (!isLoggedIn) {
-      console.log("로그인 되어 있지 않음")
-      Router.push('/member/login')
-    }
-    else {
-      console.log("로그인 되어 있음")
-    }
-  }, [])
+  const { isLoggedIn, isJoinPage } = useSelector((state) => state.user)
 
   return (
     <>
@@ -27,7 +18,11 @@ const App = ({ Component }) => {
         <title>Dokkaebi</title>
         <meta charSet='utf-8' />
       </Head>
-      <Component />
+      <AppLayout>
+        {isLoggedIn && <Component />}
+        {!isLoggedIn && !isJoinPage && <LoginForm />}
+        {isJoinPage && <JoinForm />}
+      </AppLayout>
     </>
   )
 }

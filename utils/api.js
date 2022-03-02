@@ -40,7 +40,7 @@ const joinApi = async ({ name, identity, password, phoneNumber }) => {
     }
     catch (err) {
       res.isSuccess = false
-      // res.data = err.response.data
+      res.data = err.response.data
     }
   }
   return res

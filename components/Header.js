@@ -1,15 +1,54 @@
 import React from 'react'
 import styled from "styled-components"
+import Router from 'next/router'
 
 const HeaderWrapper = styled.div`
-  width: 100vw;
-  height: 100px;
+  position: fixed;
+  overflow: hidden;
+  width: 100%;
+  height: 3.2rem;
+  background-color: gray;
+  text-align: center;
 `
 
+const Centering = styled.div`
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  width: 42rem;
+  height: 3.2rem;
+  background-color: red;
+  z-index: 10;
+`
+
+const Logo = styled.div`
+  display:inline-block;
+  position: relative;
+  top:50%;
+  transform: translate(0, -50%);
+  background-color: blue;
+  font-size: 1.8em;
+
+  &:hover{
+    cursor: pointer;
+  }
+`
+
+
+
 const Header = () => {
+  const onClickLogo = () => {
+    Router.push('/')
+  }
+
   return (
     <>
-      <HeaderWrapper />
+      <HeaderWrapper>
+        <Centering>
+          <Logo onClick={onClickLogo}>Dokkaebi</Logo>
+        </Centering>
+      </HeaderWrapper>
     </>
   )
 }
