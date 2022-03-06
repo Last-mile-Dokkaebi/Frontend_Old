@@ -9,6 +9,7 @@ const Index = () => {
 
   const onTest = () => {
     const accessToken = getAccessToken()
+    console.log(accessToken)
     Router.push('/map')
   }
   /*로그인 되어 있을 경우 개인 페이지를 보여줌*/
