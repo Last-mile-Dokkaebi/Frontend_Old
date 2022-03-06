@@ -1,15 +1,15 @@
-import React from 'react'
-import styled from "styled-components"
-import Router from 'next/router'
+import React from "react";
+import styled from "styled-components";
+import Router from "next/router";
 
 const HeaderWrapper = styled.div`
   position: fixed;
   overflow: hidden;
   width: 100%;
-  height: 3.2rem;
+  height: ${process.env.NEXT_PUBLIC_APP_NAVIGATION_HEIGHT};
   background-color: gray;
   text-align: center;
-`
+`;
 
 const Centering = styled.div`
   position: absolute;
@@ -20,27 +20,25 @@ const Centering = styled.div`
   height: 3.2rem;
   background-color: red;
   z-index: 10;
-`
+`;
 
 const Logo = styled.div`
-  display:inline-block;
+  display: inline-block;
   position: relative;
-  top:50%;
+  top: 50%;
   transform: translate(0, -50%);
   background-color: blue;
   font-size: 1.8em;
 
-  &:hover{
+  &:hover {
     cursor: pointer;
   }
-`
-
-
+`;
 
 const Header = () => {
   const onClickLogo = () => {
-    Router.push('/')
-  }
+    Router.push("/");
+  };
 
   return (
     <>
@@ -50,7 +48,7 @@ const Header = () => {
         </Centering>
       </HeaderWrapper>
     </>
-  )
-}
+  );
+};
 
 export default Header;
