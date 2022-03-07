@@ -18,7 +18,7 @@ const Body = styled.div`
 `;
 
 const Centering = styled.div`
-  max-width: 42rem;
+  max-width: ${process.env.NEXT_PUBLIC_APP_WIDTH};
   width: 100%;
   height: 100%;
   background-color: white;

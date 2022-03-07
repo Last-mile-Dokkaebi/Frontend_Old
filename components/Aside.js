@@ -15,7 +15,7 @@ const AsideWrapper = styled.div`
 
 const Navigation = styled.div`
   width: 100%;
-  max-width: 42rem;
+  max-width: ${process.env.NEXT_PUBLIC_APP_WIDTH};
   height: 3.2rem;
   display: flex;
   margin: 0 auto;

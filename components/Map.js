@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useRef } from "react";
 import styled from "styled-components";
-import { loginAction } from "../reducers/user";
 import { scooterApi } from "../utils/api";
 
 const Container = styled.div`
@@ -34,8 +33,8 @@ const Map = () => {
       const lon = [];
       const lat = [];
       scooters.forEach((scooter) => {
-        lon.push(parseFloat(scooter.lon.replace("..", ".")));
-        lat.push(parseFloat(scooter.lat.replace("..", ".")));
+        lon.push(scooter.lon);
+        lat.push(scooter.lat);
       });
       const x = lon.reduce((prev, current) => prev + current) / scooters.length;
       const y = lat.reduce((prev, current) => prev + current) / scooters.length;

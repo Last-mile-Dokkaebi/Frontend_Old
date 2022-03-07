@@ -16,7 +16,7 @@ const Centering = styled.div`
   top: 0;
   left: 50%;
   transform: translate(-50%, 0%);
-  width: 42rem;
+  width: ${process.env.NEXT_PUBLIC_APP_WIDTH};
   height: 3.2rem;
   background-color: red;
   z-index: 10;
