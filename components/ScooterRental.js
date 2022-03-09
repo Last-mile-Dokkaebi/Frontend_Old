@@ -28,9 +28,19 @@ ReactDOM.render(
 
 */
 
+const { RangePicker } = DatePicker;
+
+const CustomRangePicker = styled(RangePicker)`
+  @media (max-width: 576px) {
+    .ant-picker-panels {
+      flex-direction: column;
+    }
+  }
+`;
+
 const ScooterRental = () => {
   const { kakao } = window;
-  const { RangePicker } = DatePicker;
+
   const dateFormat = "YYYY-MM-DD";
   const today = new Date();
 
@@ -112,7 +122,7 @@ const ScooterRental = () => {
       <div>현재 위치 도로명 주소 : {roadAddress}</div>
       <div>배터리 상태 : {scooter.soc}</div>
       <div>
-        <RangePicker
+        <CustomRangePicker
           defaultValue={[moment(start, dateFormat), moment(end, dateFormat)]}
           format={dateFormat}
           value={[
