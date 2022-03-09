@@ -63,8 +63,8 @@ const ScooterRental = () => {
 
   const RentalWrapper = styled.div`
     position: relative;
-    top: -30%;
-    height: 30%;
+    top: -50%;
+    height: 50%;
     width: 100%;
     background-color: yellow;
     z-index: 2;
