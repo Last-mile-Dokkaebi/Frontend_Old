@@ -62,10 +62,10 @@ const ScooterRental = () => {
   }, []);
 
   const RentalWrapper = styled.div`
-    position: absolute;
-    top: 50%;
-    height: 50%;
-    width: ${process.env.NEXT_PUBLIC_APP_WIDTH};
+    position: relative;
+    top: -30%;
+    height: 30%;
+    width: 100%;
     background-color: yellow;
     z-index: 2;
   `;
