@@ -12,8 +12,8 @@ const BackGround = styled.div`
 const Body = styled.div`
   width: 100%;
   height: 100vh;
-  padding-top: 3.2rem;
-  padding-bottom: 3.2rem;
+  padding-top: ${process.env.NEXT_PUBLIC_APP_NAVIGATION_HEIGHT};
+  padding-bottom: ${process.env.NEXT_PUBLIC_APP_NAVIGATION_HEIGHT};
   background-color: #f2f2f2 !important;
 `;
 
@@ -21,6 +21,8 @@ const Centering = styled.div`
   max-width: ${process.env.NEXT_PUBLIC_APP_WIDTH};
   width: 100%;
   height: 100%;
+  margin-top: ${process.env.NEXT_PUBLIC_APP_NAVIGATION_HEIGHT};
+  margin-bottom: ${process.env.NEXT_PUBLIC_APP_NAVIGATION_HEIGHT};
   background-color: white;
   margin: 0 auto;
 `;

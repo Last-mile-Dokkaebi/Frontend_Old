@@ -2,6 +2,9 @@ import React, { useCallback, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { scooterApi } from "../utils/api";
 import { PropTypes } from "prop-types";
+import { userClickPossibleScooterAction } from "../reducers/map";
+import ScooterRental from "./ScooterRental";
+import { useDispatch, useSelector } from "react-redux";
 
 const Container = styled.div`
   width: 100%;
@@ -9,24 +12,29 @@ const Container = styled.div`
 `;
 
 const Map = () => {
+  const { rentalVisible } = useSelector((state) => state.map);
+  const dispatch = useDispatch();
+
   const { kakao } = window;
   const kakaoMap = useRef(null);
   const markers = [];
 
-  // map, x(lon), y(lat)을 인자로 받아 해당하는 마커를 지도에 표시합니다.
-  const addMarker = useCallback((map, x, y, soc) => {
-    const coords = new kakao.maps.LatLng(y, x);
+  // scooter객체를 인자로 받아 해당하는 마커를 지도에 표시합니다.
+  const addMarker = useCallback((map, scooter) => {
+    const { lon, lat, soc } = scooter;
+    const coords = new kakao.maps.LatLng(lat, lon);
     const marker = new kakao.maps.Marker({
       position: coords,
     });
 
     const content = `<div 
-    style="transform:translate(0, -3rem);width:8rem;height:1.4rem;text-align:center;background-color:white;">
+    style="width:8rem;height:1.4rem;text-align:center;background-color:white;">
     배터리 상태 : ${soc}%
     </div>`;
     const overlay = new kakao.maps.CustomOverlay({
       position: coords,
       content: content,
+      yAnchor: 2.75,
     });
 
     kakao.maps.event.addListener(marker, "mouseover", () => {
@@ -37,20 +45,8 @@ const Map = () => {
     });
 
     kakao.maps.event.addListener(marker, "click", () => {
-      alert(soc);
+      dispatch(userClickPossibleScooterAction(scooter));
     });
-
-    // const content = `<div>${soc}</div>`;
-    // const infoWindow = new kakao.maps.InfoWindow({
-    //   content: content,
-    // });
-
-    // kakao.maps.event.addListener(marker, "mouseover", () => {
-    //   infoWindow.open(map, marker);
-    // });
-    // kakao.maps.event.addListener(marker, "mouseout", () => {
-    //   infoWindow.close();
-    // });
 
     marker.setMap(map);
     markers.push(marker);
@@ -62,7 +58,6 @@ const Map = () => {
       alert("퀵보드 정보를 읽어오는데 실패하였습니다.");
     } else {
       const { scooters } = res;
-      console.log(scooters);
       const lon = [];
       const lat = [];
       const possibleScooters = [];
@@ -95,7 +90,7 @@ const Map = () => {
       map.setCenter(coords);
 
       possibleScooters.forEach((scooter) => {
-        addMarker(map, scooter.lon, scooter.lat, scooter.soc);
+        addMarker(map, scooter);
       });
 
       clusterer.addMarkers(markers);
@@ -109,7 +104,8 @@ const Map = () => {
 
   return (
     <Container>
-      <Container ref={kakaoMap} style={{ widht: "100%", height: "100%" }} />
+      <Container ref={kakaoMap} />
+      {rentalVisible && <ScooterRental />}
     </Container>
   );
 };

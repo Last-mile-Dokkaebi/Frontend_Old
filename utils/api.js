@@ -85,4 +85,47 @@ const scooterApi = async () => {
   return res;
 };
 
-export { joinApi, loginApi, scooterApi };
+/* 스쿠터의 렌탈 가격을 불러오기 위한 함수*/
+const getRentalCost = async (start, end) => {
+  const body = {
+    startDate: start,
+    endDate: end,
+  };
+  const res = {
+    isSuccess: true,
+  };
+  try {
+    const response = await axios.post("/rental/price", body);
+    res.cost = response.data;
+  } catch (err) {
+    res.isSuccess = false;
+    res.data = err.response.data;
+  }
+
+  return res;
+};
+
+/* 스쿠터를 대여하기 위한 함수*/
+const rentalScooter = async (identity, bike, start, end) => {
+  const body = {
+    identity: identity,
+    bikeNum: bike,
+    startDate: start,
+    endDate: end,
+  };
+
+  const res = {
+    isSuccess: true,
+  };
+  try {
+    const response = await axios.post("/rental/new", body);
+    res.data = response.data;
+  } catch (err) {
+    res.isSuccess = false;
+    res.data = err.response.data;
+  }
+
+  return res;
+};
+
+export { joinApi, loginApi, scooterApi, getRentalCost, rentalScooter };
