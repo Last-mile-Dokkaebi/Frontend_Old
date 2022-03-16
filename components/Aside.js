@@ -6,48 +6,33 @@ import {
   SettingOutlined,
 } from "@ant-design/icons";
 import Router from "next/router";
-
-const AsideWrapper = styled.div`
-  position: fixed;
-  width: 100%;
-  height: ${process.env.NEXT_PUBLIC_APP_NAVIGATION_HEIGHT};
-  right: 0;
-  bottom: 0;
-  left: 0;
-  text-align: center;
-  z-index: 20;
-`;
-
-const Navigation = styled.div`
-  width: 100%;
-  max-width: ${process.env.NEXT_PUBLIC_APP_WIDTH};
-  height: 3.2rem;
-  display: flex;
-  margin: 0 auto;
-  background-color: rgba(225, 225, 225, 1);
-  text-align: center;
-`;
-
-const Centering = styled.div`
-  position: relative;
-  left: 50%;
-  width: 50%;
-  height: 100%;
-  transform: translate(-50%, 0);
-`;
+import { Row, Col } from "antd";
 
 const GlobalStyle = createGlobalStyle`
   .navigationMenu{
     font-size: 2.4rem;
     position:relative;
     top:50%;
-    transform: translate(0, -50%);
-    margin: 0rem 1rem 1rem 0rem;
+    margin-top:0.25rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
   }
 
   .navigationMenu:hover{
     color: rgba(64, 169, 255, 128);
   }
+`;
+
+const RowWrapper = styled(Row)`
+  width: 100%;
+  height: 100%;
+  background-color: gray;
+`;
+const MidCol = styled(Col)`
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  vertical-align: middle;
 `;
 
 const onClickAlram = () => {
@@ -64,7 +49,30 @@ const Aside = () => {
   return (
     <>
       <GlobalStyle />
-      <AsideWrapper>
+      <RowWrapper>
+        <Col xs={0} sm={0} md={4}>
+          바깥왼쪽
+        </Col>
+        <Col xs={24} sm={24} md={16}>
+          <Row>
+            <MidCol span={24}>
+              <BellOutlined onClick={onClickAlram} className="navigationMenu" />
+              <BarChartOutlined
+                onClick={onClickStatistics}
+                className="navigationMenu"
+              />
+              <SettingOutlined
+                onClick={onClickSettings}
+                className="navigationMenu"
+              />
+            </MidCol>
+          </Row>
+        </Col>
+        <Col xs={0} sm={0} md={4}>
+          바깥오른쪽
+        </Col>
+      </RowWrapper>
+      {/* <div>
         <Navigation>
           <Centering>
             <BellOutlined onClick={onClickAlram} className="navigationMenu" />
@@ -78,7 +86,7 @@ const Aside = () => {
             />
           </Centering>
         </Navigation>
-      </AsideWrapper>
+      </div> */}
     </>
   );
 };

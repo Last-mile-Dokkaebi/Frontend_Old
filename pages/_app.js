@@ -43,9 +43,6 @@ const App = ({ Component }) => {
       </Head>
       <AppLayout>
         <Component />
-        {/* {isLoggedIn && <Component />}
-        {!isLoggedIn && !isJoinPage && <LoginForm />}
-        {isJoinPage && <JoinForm />} */}
       </AppLayout>
     </>
   );
