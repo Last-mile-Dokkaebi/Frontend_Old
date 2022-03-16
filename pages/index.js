@@ -1,7 +1,5 @@
-import Router from "next/router";
 import React from "react";
 import { useSelector } from "react-redux";
-import { getAccessToken } from "../utils/token";
 import Map from "../components/Map";
 
 const Index = () => {
