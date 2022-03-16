@@ -1,35 +1,38 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { userUnclickPossibleScooterAction } from "../reducers/map";
 import { DatePicker } from "antd";
 import moment from "moment";
 import { getRentalCost, rentalScooter } from "../utils/api";
+import propTypes from "prop-types";
 
-/*
-const customWeekStartEndFormat = value =>
-  `${moment(value).startOf('week').format(weekFormat)} ~ ${moment(value)
-    .endOf('week')
-    .format(weekFormat)}`;
+import { CloseOutlined } from "@ant-design/icons";
 
-ReactDOM.render(
-  <Space direction="vertical" size={12}>
-    <DatePicker defaultValue={moment('2015/01/01', dateFormat)} format={dateFormat} />
-    <DatePicker defaultValue={moment('01/01/2015', dateFormatList[0])} format={dateFormatList} />
-    <DatePicker defaultValue={moment('2015/01', monthFormat)} format={monthFormat} picker="month" />
-    <DatePicker defaultValue={moment()} format={customWeekStartEndFormat} picker="week" />
-    <RangePicker
-      defaultValue={[moment('2015/01/01', dateFormat), moment('2015/01/01', dateFormat)]}
-      format={dateFormat}
-    />
-    <DatePicker defaultValue={moment('2015/01/01', dateFormat)} format={customFormat} />
-  </Space>,
-  mountNode,
+const RentalWrapper = styled.div`
+  position: relative;
+  top: -30%;
+  height: 30%;
+  width: 100%;
+  z-index: 2;
+  background-color: rgba(64, 169, 255, 0.55);
+`;
 
-*/
+const CustomCloseOutlined = styled(CloseOutlined)`
+  position: absolute;
+  left: 100%;
+  font-size: 2.2rem;
+  transform: translate(-100%, 5%);
+  color: white;
+  border-radius: 10px;
+`;
+
+const BodyWrapper = styled.div`
+  height: 100%;
+  widht: 100%;
+`;
 
 const ScooterRental = () => {
-  const { kakao } = window;
   const { RangePicker } = DatePicker;
 
   const dateFormat = "YYYY-MM-DD";
@@ -38,38 +41,11 @@ const ScooterRental = () => {
   const { scooter } = useSelector((state) => state.map);
   const { identity } = useSelector((state) => state.user);
 
-  const [address, setAddress] = useState("");
-  const [roadAddress, setRoadAddress] = useState("");
-
   const [start, setStart] = useState(
     [today.getFullYear(), today.getMonth() + 1, today.getDay()].join("/")
   );
   const [end, setEnd] = useState(undefined);
-
   const [cost, setCost] = useState(0);
-
-  useEffect(() => {
-    const geocoder = new kakao.maps.services.Geocoder();
-    geocoder.coord2Address(scooter.lon, scooter.lat, (result, status) => {
-      if (status === kakao.maps.services.Status.OK) {
-        setAddress(result[0].address.address_name);
-        setRoadAddress(
-          result[0].road_address.address_name +
-            " " +
-            result[0].road_address.building_name
-        );
-      }
-    });
-  }, []);
-
-  const RentalWrapper = styled.div`
-    position: relative;
-    top: -50%;
-    height: 50%;
-    width: 100%;
-    background-color: yellow;
-    z-index: 2;
-  `;
 
   const dispatch = useDispatch();
 
@@ -108,27 +84,36 @@ const ScooterRental = () => {
 
   return (
     <RentalWrapper>
-      <div onClick={onClickClose}>이 창 닫기</div>
-      <div>현재 위치 : {address}</div>
-      <div>현재 위치 도로명 주소 : {roadAddress}</div>
-      <div>배터리 상태 : {scooter.soc}</div>
       <div>
-        <RangePicker
-          showTime
-          defaultValue={[moment(start, dateFormat), moment(end, dateFormat)]}
-          format={dateFormat}
-          value={[
-            start ? moment(start, dateFormat) : undefined,
-            end ? moment(end, dateFormat) : undefined,
-          ]}
-          onChange={onCalendarChange}
-          allowEmpty={[false, false]}
-        />
+        <CustomCloseOutlined onClick={onClickClose} />
       </div>
-      <div>{cost}</div>
-      <div onClick={onClickRental}>빌리기~~~~</div>
+      <BodyWrapper>
+        <div>현재 위치 : {scooter.address}</div>
+        <div>현재 위치 도로명 주소 : {scooter.roadAddress}</div>
+        <div>배터리 상태 : {scooter.soc}</div>
+        <div>
+          <RangePicker
+            showTime
+            defaultValue={[moment(start, dateFormat), moment(end, dateFormat)]}
+            format={dateFormat}
+            value={[
+              start ? moment(start, dateFormat) : undefined,
+              end ? moment(end, dateFormat) : undefined,
+            ]}
+            onChange={onCalendarChange}
+            allowEmpty={[false, false]}
+          />
+        </div>
+        <div>{cost}</div>
+        <div onClick={onClickRental}>빌리기~~~~</div>
+      </BodyWrapper>
     </RentalWrapper>
   );
+};
+
+ScooterRental.proptypes = {
+  address: propTypes.string.isRequired,
+  roadAddress: propTypes.string.isRequired,
 };
 
 export default ScooterRental;

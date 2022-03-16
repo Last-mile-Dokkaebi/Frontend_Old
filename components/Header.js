@@ -1,13 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 import Router from "next/router";
+import HeaderInfo from "./HeaderInfo";
+import { useSelector } from "react-redux";
 
 const HeaderWrapper = styled.div`
   position: fixed;
   overflow: hidden;
   width: 100%;
   height: ${process.env.NEXT_PUBLIC_APP_NAVIGATION_HEIGHT};
-  background-color: gray;
   text-align: center;
 `;
 
@@ -18,7 +19,7 @@ const Centering = styled.div`
   transform: translate(-50%, 0%);
   width: ${process.env.NEXT_PUBLIC_APP_WIDTH};
   height: 3.2rem;
-  background-color: red;
+  background-color: rgba(225, 225, 225, 0.75);
   z-index: 10;
 `;
 
@@ -27,17 +28,18 @@ const Logo = styled.div`
   position: relative;
   top: 50%;
   transform: translate(0, -50%);
-  background-color: blue;
   font-size: 1.8em;
 
   &:hover {
     cursor: pointer;
+    color: rgba(64, 169, 255, 128);
   }
 `;
 
 const Header = () => {
+  const { isLoggedIn, identity } = useSelector((state) => state.user);
   const onClickLogo = () => {
-    Router.push("/");
+    isLoggedIn ? Router.push("/") : Router.push("/member/login");
   };
 
   return (
@@ -45,6 +47,7 @@ const Header = () => {
       <HeaderWrapper>
         <Centering>
           <Logo onClick={onClickLogo}>Dokkaebi</Logo>
+          {identity && <HeaderInfo identity={identity} />}
         </Centering>
       </HeaderWrapper>
     </>

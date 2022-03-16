@@ -5,6 +5,7 @@ import { joinApi } from "../utils/api";
 import useInput from "../hooks/useInput";
 import { useDispatch } from "react-redux";
 import { exitJoinPageAction } from "../reducers/user";
+import Router from "next/router";
 
 const Wrapper = styled.div`
   background-color: rgb(240, 240, 240);
@@ -89,7 +90,7 @@ const JoinForm = () => {
   }, [name, identity, password, passwordCheck, phoneNumber]);
 
   const onCancle = useCallback(() => {
-    dispatch(exitJoinPageAction());
+    Router.push("/member/login");
   }, []);
 
   return (

@@ -61,6 +61,8 @@ const loginApi = async ({ identity, password }) => {
     const response = await axios.post("/member/login", body);
     res.accessToken = response.data.accessToken;
     res.refreshToken = response.data.refreshToken;
+    // res.auth = response.data.auth;
+    // res.bikeNumber = response.data.bikeNumber;
   } catch (err) {
     res.isSuccess = false;
     res.data = err.response.data;

@@ -12,10 +12,10 @@ const Container = styled.div`
 `;
 
 const Map = () => {
+  let kakao;
   const { rentalVisible } = useSelector((state) => state.map);
   const dispatch = useDispatch();
 
-  const { kakao } = window;
   const kakaoMap = useRef(null);
   const markers = [];
 
@@ -53,17 +53,25 @@ const Map = () => {
   }, []);
 
   useEffect(async () => {
+    kakao = window.kakao;
     const res = await scooterApi();
     if (res.isSuccess === false) {
       alert("퀵보드 정보를 읽어오는데 실패하였습니다.");
     } else {
       const { scooters } = res;
+      const geocoder = new kakao.maps.services.Geocoder();
       const lon = [];
       const lat = [];
       const possibleScooters = [];
       scooters.forEach((scooter) => {
+        geocoder.coord2Address(scooter.lon, scooter.lat, (result, status) => {
+          if (status === kakao.maps.services.Status.OK) {
+            scooter.address = result[0].address.address_name;
+            scooter.roadAddress = result[0].road_address.address_name;
+          }
+        });
         if (scooter.status === "POSSIBLE") {
-          possibleScooters.push(scooter);
+          scooter.road = possibleScooters.push(scooter);
           lon.push(scooter.lon);
           lat.push(scooter.lat);
         }

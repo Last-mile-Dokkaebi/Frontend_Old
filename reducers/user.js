@@ -1,15 +1,12 @@
-import { removeToken, setIdentity, setToken } from "../utils/token";
+import { ACCESS_TOKEN, IDENTITY, REFRESH_TOKEN } from "../utils/token";
 
 const initialState = {
   isLoggedIn: false,
-  isJoinPage: false,
-  myId: null,
+  identity: null,
 };
 
 const LOG_IN = "LOG_IN";
 const LOG_OUT = "LOG_OUT";
-const JOIN_PAGE = "JOIN_PAGE";
-const EXIT_JOIN_PAGE = "EXIT_JOIN_PAGE";
 
 const loginAction = (data) => {
   return {
@@ -24,24 +21,13 @@ const logoutAction = () => {
   };
 };
 
-const joinPageAction = () => {
-  return {
-    type: JOIN_PAGE,
-  };
-};
-
-const exitJoinPageAction = () => {
-  return {
-    type: EXIT_JOIN_PAGE,
-  };
-};
-
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case LOG_IN: {
       const { identity, accessToken, refreshToken } = action.data;
-      setToken({ accessToken, refreshToken });
-      setIdentity(identity);
+      localStorage.setItem(IDENTITY, identity);
+      localStorage.setItem(ACCESS_TOKEN, accessToken);
+      localStorage.setItem(REFRESH_TOKEN, refreshToken);
       return {
         ...state,
         isLoggedIn: true,
@@ -49,23 +35,13 @@ const reducer = (state = initialState, action) => {
       };
     }
     case LOG_OUT: {
-      removeToken();
+      localStorage.removeItem(IDENTITY);
+      localStorage.removeItem(ACCESS_TOKEN);
+      localStorage.removeItem(REFRESH_TOKEN);
       return {
         ...state,
         isLoggedIn: false,
         myId: null,
-      };
-    }
-    case JOIN_PAGE: {
-      return {
-        ...state,
-        isJoinPage: true,
-      };
-    }
-    case EXIT_JOIN_PAGE: {
-      return {
-        ...state,
-        isJoinPage: false,
       };
     }
     default:
@@ -75,10 +51,4 @@ const reducer = (state = initialState, action) => {
 
 export default reducer;
 
-export {
-  initialState,
-  loginAction,
-  logoutAction,
-  joinPageAction,
-  exitJoinPageAction,
-};
+export { initialState, loginAction, logoutAction };

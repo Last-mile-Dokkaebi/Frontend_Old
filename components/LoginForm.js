@@ -5,7 +5,7 @@ import React, { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import useInput from "../hooks/useInput";
-import { joinPageAction, loginAction } from "../reducers/user";
+import { loginAction } from "../reducers/user";
 import { loginApi } from "../utils/api";
 
 const Wrapper = styled.div`
@@ -63,7 +63,7 @@ const LoginForm = () => {
   }, [identity, password]);
 
   const onJoin = useCallback(() => {
-    dispatch(joinPageAction());
+    Router.push("/member/join");
   }, []);
 
   return (

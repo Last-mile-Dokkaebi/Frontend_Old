@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 const BackGround = styled.div`
   width: 100%;
   height: 100%;
+  background-color: white;
 `;
 
 const Body = styled.div`
@@ -14,7 +15,7 @@ const Body = styled.div`
   height: 100vh;
   padding-top: ${process.env.NEXT_PUBLIC_APP_NAVIGATION_HEIGHT};
   padding-bottom: ${process.env.NEXT_PUBLIC_APP_NAVIGATION_HEIGHT};
-  background-color: #f2f2f2 !important;
+  background-color: white;
 `;
 
 const Centering = styled.div`
