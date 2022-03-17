@@ -36,13 +36,13 @@ const MidCol = styled(Col)`
 `;
 
 const onClickAlram = () => {
-  Router.push("/alram");
+  location.href = "/alram";
 };
 const onClickStatistics = () => {
-  Router.push("/statistics");
+  location.href = "/statistics";
 };
 const onClickSettings = () => {
-  Router.push("/settings");
+  location.href = "/settings";
 };
 
 const Aside = () => {
