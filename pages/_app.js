@@ -10,7 +10,7 @@ import AppLayout from "../components/AppLayout";
 import { ACCESS_TOKEN, IDENTITY, REFRESH_TOKEN } from "../utils/token";
 import { loginAction } from "../reducers/user";
 
-const App = ({ Component }) => {
+const App = ({ Component, pageProps, ...appProps }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -35,6 +35,10 @@ const App = ({ Component }) => {
     }
   }, []);
 
+  // if (["/member/login", "/member/join"].includes(appProps.router.pathname)) {
+  //   return <Component {...pageProps} />;
+  // }
+
   return (
     <>
       <Head>
@@ -50,6 +54,7 @@ const App = ({ Component }) => {
 
 App.propTypes = {
   Component: PropTypes.elementType.isRequired,
+  pageProps: PropTypes.object,
 };
 
 export default wrapper.withRedux(App);
