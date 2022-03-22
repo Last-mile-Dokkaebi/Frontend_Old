@@ -7,6 +7,7 @@ import {
 } from "@ant-design/icons";
 import Router from "next/router";
 import { Row, Col } from "antd";
+import { useSelector } from "react-redux";
 
 const GlobalStyle = createGlobalStyle`
   .navigationMenu{
@@ -35,17 +36,19 @@ const MidCol = styled(Col)`
   vertical-align: middle;
 `;
 
-const onClickAlram = () => {
-  location.href = "/alram";
-};
-const onClickStatistics = () => {
-  location.href = "/statistics";
-};
-const onClickSettings = () => {
-  location.href = "/settings";
-};
-
 const Aside = () => {
+  const isLoggedIn = useSelector((state) => state.user);
+
+  const onClickAlram = () => {
+    isLoggedIn ? Router.push("/alram") : Router.push("/member/login");
+  };
+  const onClickStatistics = () => {
+    isLoggedIn ? Router.push("/statistics") : Router.push("/member/login");
+  };
+  const onClickSettings = () => {
+    isLoggedIn ? Router.push("/settings") : Router.push("/member/login");
+  };
+
   return (
     <>
       <GlobalStyle />
