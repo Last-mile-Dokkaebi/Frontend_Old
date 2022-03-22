@@ -27,7 +27,7 @@ const GlobalStyle = createGlobalStyle`
 const RowWrapper = styled(Row)`
   width: 100%;
   height: 100%;
-  background-color: gray;
+  background-color: ${(props) => props.theme.colors.navigation};
 `;
 const MidCol = styled(Col)`
   width: 100%;
@@ -53,10 +53,8 @@ const Aside = () => {
     <>
       <GlobalStyle />
       <RowWrapper>
-        <Col xs={0} sm={0} md={4}>
-          바깥왼쪽
-        </Col>
-        <Col xs={24} sm={24} md={16}>
+        <Col span={0} lg={4}></Col>
+        <Col span={24} lg={16}>
           <Row>
             <MidCol span={24}>
               <BellOutlined onClick={onClickAlram} className="navigationMenu" />
@@ -71,25 +69,8 @@ const Aside = () => {
             </MidCol>
           </Row>
         </Col>
-        <Col xs={0} sm={0} md={4}>
-          바깥오른쪽
-        </Col>
+        <Col span={0} lg={4}></Col>
       </RowWrapper>
-      {/* <div>
-        <Navigation>
-          <Centering>
-            <BellOutlined onClick={onClickAlram} className="navigationMenu" />
-            <BarChartOutlined
-              onClick={onClickStatistics}
-              className="navigationMenu"
-            />
-            <SettingOutlined
-              onClick={onClickSettings}
-              className="navigationMenu"
-            />
-          </Centering>
-        </Navigation>
-      </div> */}
     </>
   );
 };

@@ -3,8 +3,8 @@ const initialState = {
   scooter: null, //현재 선택 된 바이크의 상태
 };
 
-export const USER_CLICK_POSSIBLE_SCOOTER = "CLIBK_POSSIBLE_SCOOTER";
-export const USER_UNCLICK_POSSIBLE_SCOOTER = "USER_UNCLICK_POSSIBLE_SCOOTER";
+const USER_CLICK_POSSIBLE_SCOOTER = "CLIBK_POSSIBLE_SCOOTER";
+const USER_UNCLICK_POSSIBLE_SCOOTER = "USER_UNCLICK_POSSIBLE_SCOOTER";
 
 const userClickPossibleScooterAction = (data) => {
   return {

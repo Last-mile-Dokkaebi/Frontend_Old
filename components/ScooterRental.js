@@ -15,7 +15,7 @@ const RentalWrapper = styled.div`
   height: 30%;
   width: 100%;
   z-index: 2;
-  background-color: rgba(64, 169, 255, 0.55);
+  background-color: rgba(64, 169, 255, 1);
 `;
 
 const CustomCloseOutlined = styled(CloseOutlined)`

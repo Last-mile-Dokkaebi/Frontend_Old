@@ -5,17 +5,32 @@ import "antd/dist/antd.css";
 import Router from "next/router";
 
 import wrapper from "../store/configureStore";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import AppLayout from "../components/AppLayout";
-import { ACCESS_TOKEN, IDENTITY, REFRESH_TOKEN } from "../utils/token";
-import { loginAction } from "../reducers/user";
+import { ACCESS_TOKEN, IDENTITY, REFRESH_TOKEN, THEME } from "../utils/token";
+import { logInAction } from "../reducers/user";
+import { ThemeProvider } from "styled-components";
+import { dark, light } from "../styles/theme";
+import Loading from "../components/Loading";
+import { setThemeModeAction } from "../reducers/system";
 
 const App = ({ Component, pageProps, ...appProps }) => {
+  const publicPath = ["/member/join", "/member/login"];
+  const withoutLayoutPath = ["/member/join", "/member/login"];
+
+  const { themeMode, isLoading } = useSelector((state) => state.system);
+  const theme = themeMode === "light" ? light : dark;
+
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const publicPath = ["/member/join", "/member/login"];
     let isLogin = false;
+    let theme = localStorage.getItem(THEME);
+
+    theme
+      ? dispatch(setThemeModeAction(theme))
+      : dispatch(setThemeModeAction("right"));
+
     if (localStorage.getItem(IDENTITY)) {
       //로그인이 되어있을 경우 정보를 dispatch
       const data = {
@@ -23,7 +38,7 @@ const App = ({ Component, pageProps, ...appProps }) => {
         accessToken: localStorage.getItem(ACCESS_TOKEN),
         refreshToken: localStorage.getItem(REFRESH_TOKEN),
       };
-      dispatch(loginAction(data));
+      dispatch(logInAction(data));
       isLogin = true;
     }
 
@@ -35,9 +50,14 @@ const App = ({ Component, pageProps, ...appProps }) => {
     }
   }, []);
 
-  // if (["/member/login", "/member/join"].includes(appProps.router.pathname)) {
-  //   return <Component {...pageProps} />;
-  // }
+  //해당 URL의 경우 layout없이 component만 출력
+  if (withoutLayoutPath.includes(appProps.router.pathname)) {
+    return (
+      <ThemeProvider theme={theme}>
+        <Component {...pageProps} />
+      </ThemeProvider>
+    );
+  }
 
   return (
     <>
@@ -45,9 +65,12 @@ const App = ({ Component, pageProps, ...appProps }) => {
         <title>Dokkaebi</title>
         <meta charSet="utf-8" />
       </Head>
-      <AppLayout>
-        <Component />
-      </AppLayout>
+      <ThemeProvider theme={theme}>
+        {isLoading && <Loading />}
+        <AppLayout>
+          <Component />
+        </AppLayout>
+      </ThemeProvider>
     </>
   );
 };

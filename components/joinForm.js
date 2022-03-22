@@ -4,11 +4,10 @@ import styled from "styled-components";
 import { joinApi } from "../utils/api";
 import useInput from "../hooks/useInput";
 import { useDispatch } from "react-redux";
-import { exitJoinPageAction } from "../reducers/user";
 import Router from "next/router";
+import { endLoadingAction, startLoadingAction } from "../reducers/system";
 
 const Wrapper = styled.div`
-  background-color: rgb(240, 240, 240);
   margin: 0px;
   text-align: center;
   height: 100vh;
@@ -23,7 +22,7 @@ const Centering = styled.div`
 const FormWrapper = styled(Form)`
   border: black solid 1px;
   padding: 1em;
-  background-color: rgb(206, 223, 246);
+  background-color: ${(props) => props.theme.colors.background};
 `;
 
 const RowWrapper = styled(Form)`
@@ -35,6 +34,11 @@ const RowWrapper = styled(Form)`
 
 const ButtonRowWrapper = styled.div`
   padding-top: 2em;
+`;
+
+const JoinButton = styled(Button)`
+  background-color: ${(props) => props.theme.colors.primary};
+  border: 0px;
 `;
 
 const ErrorMessage = styled.div`
@@ -74,6 +78,7 @@ const JoinForm = () => {
   );
 
   const onSubmitForm = useCallback(async () => {
+    dispatch(startLoadingAction());
     const res = await joinApi({
       name,
       identity,
@@ -82,9 +87,11 @@ const JoinForm = () => {
       phoneNumber,
     });
     if (res.isSuccess === true) {
+      dispatch(endLoadingAction());
       alert(`회원가입을 축하합니다.`);
-      dispatch(exitJoinPageAction());
+      Router.push("/member/login");
     } else {
+      dispatch(endLoadingAction());
       alert(`${res.data}`);
     }
   }, [name, identity, password, passwordCheck, phoneNumber]);
@@ -179,14 +186,14 @@ const JoinForm = () => {
           <ButtonRowWrapper>
             <Row gutter={[5, 5]}>
               <Col span={12}>
-                <Button
+                <JoinButton
                   type="primary"
                   loading={false}
                   htmlType="submit"
                   disabled={passwordCheckError}
                 >
                   회원가입
-                </Button>
+                </JoinButton>
               </Col>
               <Col span={12}>
                 <Button loading={false} onClick={onCancle}>

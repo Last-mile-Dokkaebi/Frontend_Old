@@ -23,15 +23,17 @@ const AsideRow = styled(Row)`
   bottom: 0;
   height: ${process.env.NEXT_PUBLIC_APP_NAVIGATION_HEIGHT};
   z-index: 10;
-  background-color: grba(220, 220, 220, 1);
+  background-color: ${(props) => props.theme.colors.navigation};
 `;
 
 const BodyRow = styled(Row)`
-  widht: 100%;
+  min-width: 100%;
+  width: 100%;
   min-height: 100vh;
   height: 100%;
   padding-top: ${process.env.NEXT_PUBLIC_APP_NAVIGATION_HEIGHT};
   padding-bottom: ${process.env.NEXT_PUBLIC_APP_NAVIGATION_HEIGHT};
+  background-color: ${(props) => props.theme.colors.background};
 `;
 
 const AppLayout = ({ children }) => {
@@ -40,10 +42,10 @@ const AppLayout = ({ children }) => {
   return (
     <>
       <Row>
-        <Col xs={0} sm={0} md={4}>
+        <Col span={0} lg={4}>
           컴퓨터로 볼 때 왼쪽
         </Col>
-        <Col xs={24} sm={24} md={16} span={24} ref={bodyRef}>
+        <Col span={24} lg={16} ref={bodyRef}>
           <HeaderRow>
             <Header />
           </HeaderRow>
@@ -53,7 +55,7 @@ const AppLayout = ({ children }) => {
           </AsideRow>
         </Col>
 
-        <Col xs={0} sm={0} md={4}>
+        <Col span={0} lg={4}>
           컴퓨터로 볼 때 오른쪽
         </Col>
       </Row>

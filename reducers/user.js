@@ -2,22 +2,32 @@ import { ACCESS_TOKEN, IDENTITY, REFRESH_TOKEN } from "../utils/token";
 
 const initialState = {
   isLoggedIn: false,
+  isLoading: false,
   identity: null,
+  themeMode: "light",
 };
 
 const LOG_IN = "LOG_IN";
 const LOG_OUT = "LOG_OUT";
 
-const loginAction = (data) => {
+const CHANGE_THEME = "CHANGE_THEME";
+
+const logInAction = (data) => {
   return {
     type: LOG_IN,
     data,
   };
 };
 
-const logoutAction = () => {
+const logOutAction = () => {
   return {
     type: LOG_OUT,
+  };
+};
+
+const changeThemeAction = () => {
+  return {
+    type: CHANGE_THEME,
   };
 };
 
@@ -44,6 +54,12 @@ const reducer = (state = initialState, action) => {
         myId: null,
       };
     }
+    case CHANGE_THEME: {
+      return {
+        ...state,
+        themeMode: !state.themeMode,
+      };
+    }
     default:
       return state;
   }
@@ -51,4 +67,4 @@ const reducer = (state = initialState, action) => {
 
 export default reducer;
 
-export { initialState, loginAction, logoutAction };
+export { initialState, logInAction, logOutAction, changeThemeAction };

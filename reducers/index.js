@@ -2,6 +2,7 @@ import { HYDRATE } from "next-redux-wrapper";
 
 import user from "./user";
 import map from "./map";
+import system from "./system";
 
 import { combineReducers } from "redux";
 
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   },
   user,
   map,
+  system,
 });
 
 export default rootReducer;

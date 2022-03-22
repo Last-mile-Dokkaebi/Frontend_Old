@@ -5,11 +5,12 @@ import React, { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import useInput from "../hooks/useInput";
-import { loginAction } from "../reducers/user";
+import { endLoadingAction, startLoadingAction } from "../reducers/system";
+import { logInAction } from "../reducers/user";
 import { loginApi } from "../utils/api";
 
 const Wrapper = styled.div`
-  background-color: rgb(240, 240, 240);
+  background-color : ${(props) => props.theme.colors.back}
   margin: 0px;
   text-align: center;
   height: 100vh;
@@ -24,7 +25,7 @@ const Centering = styled.div`
 const FormWrapper = styled(Form)`
   border: black solid 1px;
   padding: 1em;
-  background-color: rgb(206, 223, 246);
+  background-color: ${(props) => props.theme.colors.background};
 `;
 
 const RowWrapper = styled.div`
@@ -38,6 +39,12 @@ const ButtonRowWrapper = styled.div`
   padding-top: 2em;
 `;
 
+const LoginButton = styled(Button)`
+  background-color: ${(props) => props.theme.colors.primary};
+  color: white;
+  border: 0px;
+`;
+
 const LoginForm = () => {
   const dispatch = useDispatch();
 
@@ -47,6 +54,7 @@ const LoginForm = () => {
   //identity(id)와 password를 그대로 보내면
   //accessToken, refreshToken을 받아옵니다
   const onSubmitForm = useCallback(async () => {
+    dispatch(startLoadingAction());
     const res = await loginApi({ identity, password });
 
     if (res.isSuccess) {
@@ -55,9 +63,11 @@ const LoginForm = () => {
         accessToken: res.accessToken,
         refreshToken: res.refreshToken,
       };
-      dispatch(loginAction(data));
+      dispatch(logInAction(data));
+      dispatch(endLoadingAction());
       Router.push("/");
     } else {
+      dispatch(endLoadingAction());
       alert("존재하지 않는 아이디이거나 패스워드가 일치하지 않습니다.");
     }
   }, [identity, password]);
@@ -96,9 +106,9 @@ const LoginForm = () => {
           <ButtonRowWrapper>
             <Row gutter={[5, 5]}>
               <Col span={12}>
-                <Button type="primary" loading={false} htmlType="submit">
+                <LoginButton type="primary" loading={false} htmlType="submit">
                   로그인
-                </Button>
+                </LoginButton>
               </Col>
               <Col span={12}>
                 <Button type="default" loading={false} onClick={onJoin}>

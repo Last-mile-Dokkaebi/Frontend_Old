@@ -5,6 +5,7 @@ import { PropTypes } from "prop-types";
 import { userClickPossibleScooterAction } from "../reducers/map";
 import ScooterRental from "./ScooterRental";
 import { useDispatch, useSelector } from "react-redux";
+import { endLoadingAction, startLoadingAction } from "../reducers/system";
 
 const Container = styled.div`
   width: 100%;
@@ -54,8 +55,10 @@ const Map = () => {
 
   useEffect(async () => {
     kakao = window.kakao;
+    dispatch(startLoadingAction());
     const res = await scooterApi();
     if (res.isSuccess === false) {
+      dispatch(endLoadingAction());
       alert("퀵보드 정보를 읽어오는데 실패하였습니다.");
     } else {
       const { scooters } = res;
@@ -107,6 +110,8 @@ const Map = () => {
       map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
       const zoomControl = new kakao.maps.ZoomControl();
       map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+
+      dispatch(endLoadingAction());
     }
   }, [kakaoMap]);
 
