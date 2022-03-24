@@ -40,7 +40,7 @@ const ButtonRowWrapper = styled.div`
 `;
 
 const LoginButton = styled(Button)`
-  background-color: ${(props) => props.theme.colors.primary};
+  background-color: ${(props) => props.theme.colors.primaryButton};
   color: white;
   border: 0px;
 `;

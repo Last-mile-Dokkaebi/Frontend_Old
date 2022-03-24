@@ -11,7 +11,7 @@ const HeaderRow = styled(Row)`
   transform: translate(-50%, 0);
   top: 0;
   width: 100%;
-  height: ${process.env.NEXT_PUBLIC_APP_NAVIGATION_HEIGHT};
+  height: ${(props) => props.theme.length.navigationHeight};
   z-index: 10;
 `;
 
@@ -21,7 +21,7 @@ const AsideRow = styled(Row)`
   width: 100%;
   position: fixed;
   bottom: 0;
-  height: ${process.env.NEXT_PUBLIC_APP_NAVIGATION_HEIGHT};
+  height: ${(props) => props.theme.length.navigationHeight};
   z-index: 10;
   background-color: ${(props) => props.theme.colors.navigation};
 `;
@@ -31,9 +31,13 @@ const BodyRow = styled(Row)`
   width: 100%;
   min-height: 100vh;
   height: 100%;
-  padding-top: ${process.env.NEXT_PUBLIC_APP_NAVIGATION_HEIGHT};
-  padding-bottom: ${process.env.NEXT_PUBLIC_APP_NAVIGATION_HEIGHT};
+  padding-top: calc(${(props) => props.theme.length.navigationHeight} + 0.5rem);
+  padding-bottom: calc(
+    ${(props) => props.theme.length.navigationHeight} + 0.5rem
+  );
   background-color: ${(props) => props.theme.colors.background};
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
 `;
 
 const AppLayout = ({ children }) => {

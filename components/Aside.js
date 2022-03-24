@@ -1,6 +1,7 @@
 import React from "react";
 import styled, { createGlobalStyle } from "styled-components";
 import {
+  HistoryOutlined,
   BellOutlined,
   BarChartOutlined,
   SettingOutlined,
@@ -20,7 +21,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   .navigationMenu:hover{
-    color: rgba(64, 169, 255, 128);
+    color: ${(props) => props.theme.colors.primary}
   }
 `;
 
@@ -39,6 +40,9 @@ const MidCol = styled(Col)`
 const Aside = () => {
   const isLoggedIn = useSelector((state) => state.user);
 
+  const onClickHistory = () => {
+    isLoggedIn ? Router.push("/history") : Router.push("/member/login");
+  };
   const onClickAlram = () => {
     isLoggedIn ? Router.push("/alram") : Router.push("/member/login");
   };
@@ -57,6 +61,10 @@ const Aside = () => {
         <Col span={24} lg={16}>
           <Row>
             <MidCol span={24}>
+              <HistoryOutlined
+                onClick={onClickHistory}
+                className="navigationMenu"
+              />
               <BellOutlined onClick={onClickAlram} className="navigationMenu" />
               <BarChartOutlined
                 onClick={onClickStatistics}

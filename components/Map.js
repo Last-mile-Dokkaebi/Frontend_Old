@@ -2,7 +2,10 @@ import React, { useCallback, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { scooterApi } from "../utils/api";
 import { PropTypes } from "prop-types";
-import { userClickPossibleScooterAction } from "../reducers/map";
+import {
+  userClickPossibleScooterAction,
+  userUnclickPossibleScooterAction,
+} from "../reducers/map";
 import ScooterRental from "./ScooterRental";
 import { useDispatch, useSelector } from "react-redux";
 import { endLoadingAction, startLoadingAction } from "../reducers/system";
@@ -113,6 +116,9 @@ const Map = () => {
 
       dispatch(endLoadingAction());
     }
+
+    //페이지에서 나갈때는 켜져있던 rental창을 닫아줌
+    return dispatch(userUnclickPossibleScooterAction());
   }, [kakaoMap]);
 
   return (
