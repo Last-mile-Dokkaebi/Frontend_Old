@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import { scooterApi } from "../utils/api";
 import { PropTypes } from "prop-types";
@@ -9,6 +9,7 @@ import {
 import ScooterRental from "./ScooterRental";
 import { useDispatch, useSelector } from "react-redux";
 import { endLoadingAction, startLoadingAction } from "../reducers/system";
+import { addMarker } from "../utils/map";
 
 const Container = styled.div`
   width: 100%;
@@ -22,39 +23,6 @@ const Map = () => {
 
   const kakaoMap = useRef(null);
   const markers = [];
-
-  // scooter객체를 인자로 받아 해당하는 마커를 지도에 표시합니다.
-  const addMarker = useCallback((map, scooter) => {
-    const { lon, lat, soc } = scooter;
-    const coords = new kakao.maps.LatLng(lat, lon);
-    const marker = new kakao.maps.Marker({
-      position: coords,
-    });
-
-    const content = `<div 
-    style="width:8rem;height:1.4rem;text-align:center;background-color:white;">
-    배터리 상태 : ${soc}%
-    </div>`;
-    const overlay = new kakao.maps.CustomOverlay({
-      position: coords,
-      content: content,
-      yAnchor: 2.75,
-    });
-
-    kakao.maps.event.addListener(marker, "mouseover", () => {
-      overlay.setMap(map);
-    });
-    kakao.maps.event.addListener(marker, "mouseout", () => {
-      overlay.setMap(null);
-    });
-
-    kakao.maps.event.addListener(marker, "click", () => {
-      dispatch(userClickPossibleScooterAction(scooter));
-    });
-
-    marker.setMap(map);
-    markers.push(marker);
-  }, []);
 
   useEffect(async () => {
     kakao = window.kakao;
@@ -104,7 +72,9 @@ const Map = () => {
       map.setCenter(coords);
 
       possibleScooters.forEach((scooter) => {
-        addMarker(map, scooter);
+        addMarker(markers, map, scooter, () => {
+          dispatch(userClickPossibleScooterAction(scooter));
+        });
       });
 
       clusterer.addMarkers(markers);

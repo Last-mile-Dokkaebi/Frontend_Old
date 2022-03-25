@@ -102,31 +102,33 @@ const ScooterRental = () => {
   };
 
   return (
-    <RentalWrapper>
-      <CustomCloseOutlined onClick={onClickClose} />
-      <div>현재 위치 : {scooter.address}</div>
-      <div>현재 위치 도로명 주소 : {scooter.roadAddress}</div>
-      <Battery soc={scooter.soc} />
-      <RangePicker
-        style={{
-          position: "absolute",
-          bottom: "3.8rem",
-          left: "1rem",
-          width: "75%",
-        }}
-        showTime
-        defaultValue={[moment(start, dateFormat), moment(end, dateFormat)]}
-        format={dateFormat}
-        value={[
-          start ? moment(start, dateFormat) : undefined,
-          end ? moment(end, dateFormat) : undefined,
-        ]}
-        onChange={onCalendarChange}
-        allowEmpty={[false, false]}
-      />
-      <CostInput readOnly={true} value={cost} suffix="원" />
-      <RentalButton onClick={onClickRental}>빌리기</RentalButton>
-    </RentalWrapper>
+    <>
+      <RentalWrapper>
+        <CustomCloseOutlined onClick={onClickClose} />
+        <div>현재 위치 : {scooter.address}</div>
+        <div>현재 위치 도로명 주소 : {scooter.roadAddress}</div>
+        <Battery soc={scooter.soc} />
+        <RangePicker
+          style={{
+            position: "absolute",
+            bottom: "3.8rem",
+            left: "1rem",
+            width: "75%",
+          }}
+          showTime
+          defaultValue={[moment(start, dateFormat), moment(end, dateFormat)]}
+          format={dateFormat}
+          value={[
+            start ? moment(start, dateFormat) : undefined,
+            end ? moment(end, dateFormat) : undefined,
+          ]}
+          onChange={onCalendarChange}
+          allowEmpty={[false, false]}
+        />
+        <CostInput readOnly={true} value={cost} suffix="원" />
+        <RentalButton onClick={onClickRental}>빌리기</RentalButton>
+      </RentalWrapper>
+    </>
   );
 };
 
