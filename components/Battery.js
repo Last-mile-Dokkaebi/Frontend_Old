@@ -11,6 +11,13 @@ const BatteryWrapper = styled.div`
   padding: 0.1rem;
 `;
 
+const Centering = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+`;
+
 const Battery = ({ soc }) => {
   const red = "rgb(255, 0, 0)";
   const yellow = "rgb(255, 127, 0)";
@@ -18,7 +25,7 @@ const Battery = ({ soc }) => {
 
   let currentColor;
 
-  if (soc > 76) {
+  if (soc > 70) {
     currentColor = green;
   } else if (soc > 25) {
     currentColor = yellow;
@@ -26,21 +33,25 @@ const Battery = ({ soc }) => {
     currentColor = red;
   }
 
-  const currentBattery = `${soc}%`;
+  const currentSOC = `${soc}%`;
+  const isEmpty = soc === 0 ? true : false;
 
   return (
     <BatteryWrapper>
-      <div
-        style={{
-          backgroundColor: currentColor,
-          width: currentBattery,
-          height: "100%",
-          borderRadius: "0.2rem",
-          position: "relative",
-          top: "50%",
-          transform: "translate(0, -50%)",
-        }}
-      ></div>
+      {!isEmpty && (
+        <div
+          style={{
+            backgroundColor: currentColor,
+            width: currentSOC,
+            height: "100%",
+            borderRadius: "0.2rem",
+            position: "relative",
+            top: "50%",
+            transform: "translate(0, -50%)",
+          }}
+        ></div>
+      )}
+      {isEmpty && <Centering>0%</Centering>}
     </BatteryWrapper>
   );
 };

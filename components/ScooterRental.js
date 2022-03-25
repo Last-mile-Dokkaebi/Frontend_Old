@@ -110,9 +110,9 @@ const ScooterRental = () => {
       <RangePicker
         style={{
           position: "absolute",
-          bottom: "3.25rem",
+          bottom: "3.8rem",
           left: "1rem",
-          width: "50%",
+          width: "75%",
         }}
         showTime
         defaultValue={[moment(start, dateFormat), moment(end, dateFormat)]}
