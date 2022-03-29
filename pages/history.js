@@ -5,8 +5,7 @@ import { getPathApi } from "../utils/api";
 import { startLoadingAction, endLoadingAction } from "../reducers/system";
 import styled from "styled-components";
 import MyMap from "../components/MyMap";
-import { Polyline } from "react-kakao-maps-sdk";
-import { MapMarker } from "react-kakao-maps-sdk";
+import { MapMarker, Polyline } from "react-kakao-maps-sdk";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -17,6 +16,7 @@ const history = () => {
   const { identity } = useSelector((state) => state.user);
   const { currentHistory, histories } = useSelector((state) => state.map);
   const [paths, setPaths] = useState([]);
+  const [start, setStart] = useState({ lat: 0, lng: 0 });
   const dispatch = useDispatch();
 
   useEffect(async () => {
@@ -33,6 +33,10 @@ const history = () => {
             lng: path.lon,
           }))
         );
+        setStart({
+          lat: res.data[0].data[0].lat,
+          lng: res.data[0].data[0].lon,
+        });
         dispatch(endLoadingAction());
       } else {
         //처음 불러오는 것이 아닌 경우
@@ -48,9 +52,13 @@ const history = () => {
     return <></>;
   }
 
+  console.log(paths);
+  console.log(start);
+
   return (
     <Wrapper>
-      <MyMap positions={histories[currentHistory].data}>
+      <MyMap positions={histories[currentHistory].data} level={2}>
+        <MapMarker position={start} />
         <Polyline
           path={paths}
           strokeWeight={3}

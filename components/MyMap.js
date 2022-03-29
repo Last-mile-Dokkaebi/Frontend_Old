@@ -1,8 +1,9 @@
 import React, { memo, useEffect, useState } from "react";
 import { Map } from "react-kakao-maps-sdk";
-import propTypes, { arrayOf } from "prop-types";
+import propTypes from "prop-types";
 
-const MyMap = memo(({ children, positions }) => {
+// eslint-disable-next-line react/display-name
+const MyMap = memo(({ level = 4, children, positions }) => {
   if (!Array.isArray(positions)) {
     return <></>;
   }
@@ -36,7 +37,7 @@ const MyMap = memo(({ children, positions }) => {
       <Map
         center={{ lat: centerLat, lng: centerLon }}
         style={{ width: "100%", height: "100%" }}
-        level={4}
+        level={level}
       >
         {children}
       </Map>
@@ -45,6 +46,7 @@ const MyMap = memo(({ children, positions }) => {
 });
 
 MyMap.propTypes = {
+  level: propTypes.number,
   positions: propTypes.array.isRequired,
   children: propTypes.elementType,
 };

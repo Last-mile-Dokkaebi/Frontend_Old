@@ -10,6 +10,7 @@ import { MapMarker } from "react-kakao-maps-sdk";
 import styled from "styled-components";
 import ScooterRental from "./ScooterRental";
 import MyMap from "./MyMap";
+import { MarkerClusterer } from "react-kakao-maps-sdk";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -57,15 +58,17 @@ const RentalMap = () => {
   return (
     <Wrapper>
       <MyMap positions={scooters}>
-        {scooters.map((scooter) => (
-          <MapMarker
-            key={`${scooter.lat}${scooter.lon}`}
-            position={{ lat: scooter.lat, lng: scooter.lon }}
-            onClick={() => {
-              onClickMarker(scooter);
-            }}
-          />
-        ))}
+        <MarkerClusterer averageCenter={true} minLevel={6}>
+          {scooters.map((scooter) => (
+            <MapMarker
+              key={`${scooter.lat}${scooter.lon}`}
+              position={{ lat: scooter.lat, lng: scooter.lon }}
+              onClick={() => {
+                onClickMarker(scooter);
+              }}
+            />
+          ))}
+        </MarkerClusterer>
       </MyMap>
       {rentalVisible && <ScooterRental />}
     </Wrapper>
