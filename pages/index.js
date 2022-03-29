@@ -1,5 +1,6 @@
 import React from "react";
-import Map from "../components/Map";
+import RentalMap from "../components/RentalMap";
+// import RentalMap from "../components/RentalMap";
 
 const Index = () => {
   // const { identity } = useSelector((state) => state.user);
@@ -8,7 +9,7 @@ const Index = () => {
   /* 첫 메인페이지는 맵을 띄워줌*/
   return (
     <>
-      <Map />
+      <RentalMap />
     </>
   );
 };

@@ -1,9 +1,10 @@
-import { ACCESS_TOKEN, IDENTITY, REFRESH_TOKEN } from "../utils/token";
+import { ACCESS_TOKEN, AUTH, IDENTITY, REFRESH_TOKEN } from "../utils/token";
 
 const initialState = {
   isLoggedIn: false,
   isLoading: false,
   identity: null,
+  auth: "",
   themeMode: "light",
 };
 
@@ -34,14 +35,16 @@ const changeThemeAction = () => {
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case LOG_IN: {
-      const { identity, accessToken, refreshToken } = action.data;
+      const { identity, accessToken, refreshToken, auth } = action.data;
       localStorage.setItem(IDENTITY, identity);
       localStorage.setItem(ACCESS_TOKEN, accessToken);
       localStorage.setItem(REFRESH_TOKEN, refreshToken);
+      localStorage.setItem(AUTH, auth);
       return {
         ...state,
         isLoggedIn: true,
         identity: identity,
+        auth: auth,
       };
     }
     case LOG_OUT: {

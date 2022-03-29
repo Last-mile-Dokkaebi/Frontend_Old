@@ -62,6 +62,7 @@ const LoginForm = () => {
         identity: identity,
         accessToken: res.accessToken,
         refreshToken: res.refreshToken,
+        auth: res.auth,
       };
       dispatch(logInAction(data));
       dispatch(endLoadingAction());

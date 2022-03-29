@@ -61,7 +61,7 @@ const loginApi = async ({ identity, password }) => {
     const response = await axios.post("/member/login", body);
     res.accessToken = response.data.accessToken;
     res.refreshToken = response.data.refreshToken;
-    // res.auth = response.data.auth;
+    res.auth = response.data.auth;
     // res.bikeNumber = response.data.bikeNumber;
   } catch (err) {
     res.isSuccess = false;
@@ -78,7 +78,7 @@ const scooterApi = async () => {
   };
   try {
     const response = await axios.get("/scooter");
-    res.scooters = response.data;
+    res.scooters = response.data.data;
   } catch (err) {
     res.isSuccess = false;
     res.data = err.response.data;
@@ -130,4 +130,28 @@ const rentalScooter = async (identity, bike, start, end) => {
   return res;
 };
 
-export { joinApi, loginApi, scooterApi, getRentalCost, rentalScooter };
+/* scooter로부터 경로를 불러오는 함수*/
+const getPathApi = async (identity) => {
+  const res = {
+    isSuccess: true,
+  };
+  try {
+    // const response = await axios.post(`/member/scooterRecord/${identity}`)
+    const response = await axios.post("/member/scooterRecord/kse");
+    res.data = response.data;
+  } catch (err) {
+    res.isSuccess = false;
+    res.data = err.data;
+  }
+
+  return res;
+};
+
+export {
+  joinApi,
+  loginApi,
+  scooterApi,
+  getRentalCost,
+  rentalScooter,
+  getPathApi,
+};
