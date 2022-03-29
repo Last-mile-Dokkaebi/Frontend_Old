@@ -52,9 +52,6 @@ const history = () => {
     return <></>;
   }
 
-  console.log(paths);
-  console.log(start);
-
   return (
     <Wrapper>
       <MyMap positions={histories[currentHistory].data} level={2}>

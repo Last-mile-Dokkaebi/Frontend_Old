@@ -6,11 +6,10 @@ import {
 } from "../reducers/map";
 import { endLoadingAction, startLoadingAction } from "../reducers/system";
 import { scooterApi } from "../utils/api";
-import { MapMarker } from "react-kakao-maps-sdk";
+import { MapMarker, MarkerClusterer } from "react-kakao-maps-sdk";
 import styled from "styled-components";
 import ScooterRental from "./ScooterRental";
 import MyMap from "./MyMap";
-import { MarkerClusterer } from "react-kakao-maps-sdk";
 
 const Wrapper = styled.div`
   width: 100%;

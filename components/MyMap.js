@@ -3,7 +3,7 @@ import { Map } from "react-kakao-maps-sdk";
 import propTypes from "prop-types";
 
 // eslint-disable-next-line react/display-name
-const MyMap = memo(({ level = 4, children, positions }) => {
+const MyMap = memo(({ level = 4, children = "", positions }) => {
   if (!Array.isArray(positions)) {
     return <></>;
   }
@@ -48,7 +48,7 @@ const MyMap = memo(({ level = 4, children, positions }) => {
 MyMap.propTypes = {
   level: propTypes.number,
   positions: propTypes.array.isRequired,
-  children: propTypes.elementType,
+  children: propTypes.node,
 };
 
 export default MyMap;
