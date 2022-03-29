@@ -6,19 +6,18 @@ import {
 } from "../reducers/map";
 import { endLoadingAction, startLoadingAction } from "../reducers/system";
 import { scooterApi } from "../utils/api";
-import { Map, MapMarker } from "react-kakao-maps-sdk";
+import { MapMarker } from "react-kakao-maps-sdk";
 import styled from "styled-components";
 import ScooterRental from "./ScooterRental";
+import MyMap from "./MyMap";
 
-const Container = styled.div`
+const Wrapper = styled.div`
   width: 100%;
   height: 100%;
 `;
 
 const RentalMap = () => {
   let kakao;
-  const [centerLat, setCenterLat] = useState(0); //Map객체의 중간Lat
-  const [centerLon, setCenterLon] = useState(0); //Map객체의 중간Lon
   const [scooters, setScooters] = useState([]); //scooter객체의 배열
 
   const { rentalVisible } = useSelector((state) => state.map);
@@ -26,16 +25,10 @@ const RentalMap = () => {
 
   useEffect(async () => {
     kakao = window.kakao;
-    dispatch(startLoadingAction()); //로딩화면 시작
+    dispatch(startLoadingAction());
     const res = await scooterApi();
-    if (res.isSuccess === false) {
-      dispatch(endLoadingAction());
-      alert("퀵보드 정보를 읽어오는데 실패하였습니다.");
-    } else {
+    if (res.isSuccess) {
       const geocoder = new kakao.maps.services.Geocoder();
-
-      const lon = [];
-      const lat = [];
       const possibleScooters = [];
       res.scooters.forEach((scooter) => {
         geocoder.coord2Address(scooter.lon, scooter.lat, (result, status) => {
@@ -44,23 +37,12 @@ const RentalMap = () => {
             scooter.roadAddress = result[0].road_address.address_name;
           }
         });
-        if (scooter.status === "POSSIBLE") {
-          possibleScooters.push(scooter);
-          lon.push(scooter.lon);
-          lat.push(scooter.lat);
-        }
+        if (scooter.status === "POSSIBLE") possibleScooters.push(scooter);
       });
-      setCenterLon(
-        lon.reduce((prev, current) => prev + current) / possibleScooters.length
-      );
-      setCenterLat(
-        lat.reduce((prev, current) => prev + current) / possibleScooters.length
-      );
-
       setScooters(possibleScooters);
-
-      dispatch(endLoadingAction());
     }
+
+    dispatch(endLoadingAction());
     return dispatch(userUnclickPossibleScooterAction());
   }, []);
 
@@ -68,13 +50,13 @@ const RentalMap = () => {
     dispatch(userClickPossibleScooterAction(scooter));
   };
 
+  if (scooters.length === 0) {
+    return <></>;
+  }
+
   return (
-    <Container>
-      <Map
-        center={{ lat: centerLat, lng: centerLon }}
-        style={{ width: "100%", height: "100%" }}
-        level={4}
-      >
+    <Wrapper>
+      <MyMap positions={scooters}>
         {scooters.map((scooter) => (
           <MapMarker
             key={`${scooter.lat}${scooter.lon}`}
@@ -84,9 +66,9 @@ const RentalMap = () => {
             }}
           />
         ))}
-      </Map>
+      </MyMap>
       {rentalVisible && <ScooterRental />}
-    </Container>
+    </Wrapper>
   );
 };
 

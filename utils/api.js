@@ -137,7 +137,7 @@ const getPathApi = async (identity) => {
   };
   try {
     // const response = await axios.post(`/member/scooterRecord/${identity}`)
-    const response = await axios.post("/member/scooterRecord/kse");
+    const response = await axios.get("/member/scooterRecord/kse");
     res.data = response.data;
   } catch (err) {
     res.isSuccess = false;
